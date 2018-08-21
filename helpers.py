@@ -9,10 +9,11 @@ db_history_path = "db/histories/"
 watchlist_path = './db/watchlist'
 week_num = str(datetime.today().isocalendar()[1])
 year_num = str(datetime.now().year)[2:]
-date_tag = "[" + "W" + week_num + "Y" + year_num + "]"
+day_num = str(datetime.now().day)
+date_tag = "[D" + day_num + "W" + week_num + "Y" + year_num + "]"
 
 
-# Todo: need to handle scenario when playlist is deleted
+
 # def remove_dead_links():
 
 
