@@ -25,3 +25,5 @@ TODO:
 1. Aggregate Reports - Single playlist report option
     * single playlists can hold up to 10,000 FYI
     * at scale, will need to paginate aggregate reports 
+2. Eliminate dependence on a local db, 
+Name/tag playlists where they can be searchable and retrievable

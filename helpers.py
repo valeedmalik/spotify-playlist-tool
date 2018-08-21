@@ -1,7 +1,7 @@
 import os
 from datetime import *
 from pprint import pprint
-
+import re
 import auth
 
 username = 'valeedm92'
@@ -10,7 +10,7 @@ watchlist_path = './db/watchlist'
 week_num = str(datetime.today().isocalendar()[1])
 year_num = str(datetime.now().year)[2:]
 day_num = str(datetime.now().day)
-date_tag = " [D" + day_num + "W" + week_num + "Y" + year_num + "]"
+date_tag = " [W" + week_num + "D" + day_num + "Y" + year_num + "]"
 
 
 
@@ -103,7 +103,6 @@ def get_uris(items):
   for item in items:
     track = item['track']
     uris.append(track['uri'])
-  pprint(uris)
   return uris
 
 
@@ -121,10 +120,27 @@ def diff_playlists(current_uri_list, archive_uri_list):
     return new_tracks
 
 # db methods
+
+def remove_comment(line, sep):
+  for s in sep:
+    i = line.find(s)
+    if i >= 0:
+      line = line[:i]
+  return line.strip()
+
+def parse_watchlist(str_list):
+  tmp = []
+  for line in str_list:
+    s = remove_comment(line, "#")
+    if s is not "":
+      tmp.append(s)
+  return tmp
+
 def db_get_watchlist():
   file = open(watchlist_path, 'r')
   l = file.read().split('\n')
   file.close()
+  l = parse_watchlist(l)
   return l
 
 

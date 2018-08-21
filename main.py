@@ -18,5 +18,6 @@ watchlist = db_get_watchlist()
 
 for playlist in watchlist:
   generate_playlist_report(playlist)
+  print(playlist)
 
 generate_aggregate_report()
