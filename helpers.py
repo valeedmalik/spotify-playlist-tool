@@ -10,7 +10,7 @@ watchlist_path = './db/watchlist'
 week_num = str(datetime.today().isocalendar()[1])
 year_num = str(datetime.now().year)[2:]
 day_num = str(datetime.now().day)
-date_tag = "[D" + day_num + "W" + week_num + "Y" + year_num + "]"
+date_tag = " [D" + day_num + "W" + week_num + "Y" + year_num + "]"
 
 
 
@@ -19,7 +19,11 @@ date_tag = "[D" + day_num + "W" + week_num + "Y" + year_num + "]"
 
 
 # report creation
-def generate_report(playlist_uri):
+
+def generate_aggregate_report():
+  create_playlist(auth.agg_report, "AGGREGATE REPORT" + date_tag)
+
+def generate_playlist_report(playlist_uri):
   new_playlist_report_uri = create_update_playlist(playlist_uri)
   if new_playlist_report_uri is not None:
     db_append_playlist(playlist_uri, new_playlist_report_uri)
@@ -28,27 +32,30 @@ def generate_report(playlist_uri):
 def create_update_playlist(playlist_uri):
   new_tracks = diff_playlists(playlist_tracks(playlist_uri),
                               playlist_tracks_history(playlist_uri))
-  print("LSKDJAF;LSJD;LQ;AJKDSFA;S " )
-  pprint(new_tracks)
   if not new_tracks:
     return None
   else:
+    auth.agg_report += new_tracks
     return create_playlist(new_tracks, playlist_name(playlist_uri) + date_tag)
 
 
 def create_playlist(track_uri_list, playlist_name):
-  p = auth.sp.user_playlist_create(username, playlist_name, public=False)
-  playlist_uri = p.get('uri')
+  if len(track_uri_list) > 0:
 
-  # Spotify limits you to adding 100 tracks at a time
-  buffer = track_uri_list[:100]
-  remainder_list = track_uri_list[100:]
-  while len(buffer) > 0:
-    auth.sp.user_playlist_add_tracks(username, playlist_uri, buffer)
-    buffer = remainder_list[:100]
-    remainder_list = remainder_list[100:]
+    p = auth.sp.user_playlist_create(username, playlist_name, public=False)
+    playlist_uri = p.get('uri')
 
-  return playlist_uri
+    # Spotify limits you to adding 100 tracks at a time
+    buffer = track_uri_list[:100]
+    remainder_list = track_uri_list[100:]
+    while len(buffer) > 0:
+      auth.sp.user_playlist_add_tracks(username, playlist_uri, buffer)
+      buffer = remainder_list[:100]
+      remainder_list = remainder_list[100:]
+
+    return playlist_uri
+  else:
+    return None
 
 
 def playlist_name(playlist_uri):

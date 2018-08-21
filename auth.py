@@ -18,9 +18,10 @@ def get_token():
                                      SPOTIPY_REDIRECT_URI)
 
 def init():
-  global token, sp
+  global token, sp, agg_report
   token = get_token()
   sp = spotipy.Spotify(auth=get_token())
+  agg_report = []
 
 #   results = sp.current_user_saved_tracks()
 #   for item in results['items']:
