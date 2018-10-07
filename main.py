@@ -2,22 +2,30 @@
 # user. Uses Client Credentials flow
 
 
+import json
 # from auth import get_session
 import auth
-from helpers import db_get_watchlist, generate_aggregate_report, \
-  generate_playlist_report
+from ReportGenerator import ReportGenerator
 
-username = 'valeedm92'
-test_playlist_uri = 'spotify:user:valeedm92:playlist:5iMnObRSZlbUY2sgyut9Jf'
+with open('./config.json') as config_file:
+  config_data = json.load(config_file)
 
-auth.init()
-watchlist = db_get_watchlist()
-# pprint(watchlist)
-# x = playlist_name(test_playlist_uri)
-# print(x)
+  watchlist_path = config_data['watchlist_path']
 
-for playlist in watchlist:
-  generate_playlist_report(playlist)
-  print(playlist)
+  username = auth.init()
 
-generate_aggregate_report()
+  report_generator = ReportGenerator(username, watchlist_path)
+
+  watchlist = report_generator.db_get_watchlist(config_data['watchlist_path'])
+
+  # test_playlist_uri = 'spotify:user:valeedm92:playlist:5iMnObRSZlbUY2sgyut9Jf'
+  # print(watchlist)
+  # x = playlist_name(test_playlist_uri)
+  # print(x)
+
+  for playlist in watchlist:
+    report_generator.generate_playlist_report(playlist)
+
+    print(playlist)
+
+  report_generator.generate_aggregate_report()

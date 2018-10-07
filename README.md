@@ -12,10 +12,7 @@ SPOTIPY_CLIENT_ID     ='xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 SPOTIPY_CLIENT_SECRET ='xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
 SPOTIPY_REDIRECT_URI  ='https://www.google.com/'
 
-SCOPE = 'playlist-read-collaborative playlist-modify-private playlist-modify-public playlist-read-private user-read-private user-read-playback-state user-modify-playback-state user-library-read user-library-modify'
-
 USERNAME              = 'xxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-
 
 ```
 
