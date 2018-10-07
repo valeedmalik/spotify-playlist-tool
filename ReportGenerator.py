@@ -139,6 +139,7 @@ class ReportGenerator:
 
   @staticmethod
   def db_get_history_playlists(playlist_uri):
+    os.makedirs(db_history_path, exist_ok=True)
     f = db_history_path + playlist_uri
     if os.path.exists(f):
       f = open(f, 'r')
